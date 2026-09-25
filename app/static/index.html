@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Stockroom | Inventory</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="brand"><span class="brand-mark">S</span><span>Stockroom</span></div>
+      <div class="workspace-label">OPERATIONS</div>
+      <nav>
+        <a class="nav-item active" href="#overview"><span class="nav-icon">&#9632;</span> Overview</a>
+        <a class="nav-item" href="#inventory"><span class="nav-icon">&#9633;</span> Inventory</a>
+        <a class="nav-item" href="#catalog"><span class="nav-icon">&#9776;</span> Catalog</a>
+        <a class="nav-item" href="#warehouses"><span class="nav-icon">&#9673;</span> Warehouses</a>
+      </nav>
+      <div class="sidebar-footer">
+        <div class="status-dot"></div>
+        <div><strong>System healthy</strong><small>Local development</small></div>
+      </div>
+    </aside>
+
+    <main class="main-content">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">INVENTORY CONTROL</p>
+          <h1>Good morning, operator.</h1>
+        </div>
+        <div class="topbar-actions">
+          <span id="last-updated">Not synced yet</span>
+          <button class="icon-button" id="refresh-button" title="Refresh inventory" aria-label="Refresh inventory">&#8635;</button>
+        </div>
+      </header>
+
+      <div id="notice" class="notice" role="status" hidden></div>
+
+      <section id="overview" class="stats-grid">
+        <article class="stat-card accent-teal"><span class="stat-label">Active products</span><strong id="product-count">--</strong><span class="stat-detail">in your catalog</span></article>
+        <article class="stat-card accent-amber"><span class="stat-label">Stock positions</span><strong id="position-count">--</strong><span class="stat-detail">across all warehouses</span></article>
+        <article class="stat-card accent-coral"><span class="stat-label">Low stock</span><strong id="low-stock-count">--</strong><span class="stat-detail">need attention</span></article>
+        <article class="stat-card accent-blue"><span class="stat-label">Warehouses</span><strong id="warehouse-count">--</strong><span class="stat-detail">active locations</span></article>
+      </section>
+
+      <section id="inventory" class="content-section">
+        <div class="section-heading"><div><p class="eyebrow">LIVE VIEW</p><h2>Inventory positions</h2></div><span class="section-chip" id="inventory-status">Loading</span></div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Product</th><th>SKU</th><th>Warehouse</th><th>On hand</th><th>Signal</th></tr></thead>
+            <tbody id="inventory-table"><tr><td colspan="5" class="empty-state">Loading inventory...</td></tr></tbody>
+          </table>
+        </div>
+      </section>
+
+      <div class="lower-grid">
+        <section id="catalog" class="panel">
+          <div class="section-heading"><div><p class="eyebrow">CATALOG</p><h2>Add product</h2></div></div>
+          <form id="product-form" class="form-grid">
+            <label>SKU<input name="sku" required maxlength="64" placeholder="e.g. HW-1001"></label>
+            <label>Product name<input name="name" required maxlength="160" placeholder="Product name"></label>
+            <label class="full-width">Description<textarea name="description" rows="2" placeholder="Optional product details"></textarea></label>
+            <label>Reorder level<input name="reorder_level" type="number" min="0" value="5"></label>
+            <button class="primary-button" type="submit">Add product <span>&rarr;</span></button>
+          </form>
+        </section>
+
+        <section class="panel">
+          <div class="section-heading"><div><p class="eyebrow">STOCK ACTION</p><h2>Adjust quantity</h2></div></div>
+          <form id="adjustment-form" class="form-grid">
+            <label>Product<select name="product_id" id="product-select" required><option value="">Select product</option></select></label>
+            <label>Warehouse<select name="warehouse_id" id="warehouse-select" required><option value="">Select warehouse</option></select></label>
+            <label>Quantity change<input name="quantity_delta" type="number" required placeholder="+10 or -2"></label>
+            <label>Reason<input name="reason" maxlength="255" placeholder="Receiving, count..." /></label>
+            <button class="primary-button" type="submit">Apply adjustment <span>&rarr;</span></button>
+          </form>
+        </section>
+
+        <section id="warehouses" class="panel warehouse-panel">
+          <div class="section-heading"><div><p class="eyebrow">LOCATIONS</p><h2>Warehouses</h2></div></div>
+          <div id="warehouse-list" class="warehouse-list"><div class="empty-state">Loading warehouses...</div></div>
+          <form id="warehouse-form" class="inline-form">
+            <input name="name" required maxlength="160" placeholder="New warehouse name">
+            <input name="location" maxlength="255" placeholder="Location">
+            <button class="primary-button" type="submit">Add</button>
+          </form>
+        </section>
+      </div>
+    </main>
+  </div>
+  <script src="/static/app.js"></script>
+</body>
+</html>
